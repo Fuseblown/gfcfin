@@ -9,7 +9,6 @@ Automate backtesting and trading of various market trading strategies for financ
 ## <span style="color:white">Primary Goals</span>
 
 - Obtain preliminary backtesting results for various mechanical trading strategies
--
 
 ## <span style="color:white">NASDAQ Index Futures Test Data</span>
 

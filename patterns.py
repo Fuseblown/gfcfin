@@ -1,17 +1,7 @@
 import pandas as pd
-import numpy as np
 
 def detect_swing_points(df: pd.DataFrame, window: int = 3) -> pd.DataFrame:
-    """
-    Detect swing highs and lows in price data using a rolling window.
-    
-    Args:
-        df: DataFrame with OHLC data
-        window: Number of candles to check (default 3)
-    
-    Returns:
-        DataFrame with new columns 'swing_high' and 'swing_low'
-    """
+    """Detect swing highs and lows in price data using a rolling window."""
     # Create copy of input DataFrame
     result_df = df.copy()
     
@@ -21,11 +11,14 @@ def detect_swing_points(df: pd.DataFrame, window: int = 3) -> pd.DataFrame:
     
     # Get correct column names based on DataFrame structure
     if isinstance(df.columns, pd.MultiIndex):
-        high_col = ('price', 'High')  # Note the capital H
-        low_col = ('price', 'Low')    # Note the capital L
+        high_col = ('price', 'high')  # lowercase as per resample output
+        low_col = ('price', 'low')    # lowercase as per resample output
     else:
         high_col = 'High'
         low_col = 'Low'
+    
+    # # Print column structure for debugging
+    # print("DataFrame columns:", df.columns)
     
     # Detect swing points
     for i in range(1, len(df) - 1):
@@ -40,24 +33,15 @@ def detect_swing_points(df: pd.DataFrame, window: int = 3) -> pd.DataFrame:
     return result_df
 
 def get_last_swing_points(df: pd.DataFrame, lookback: int = 10) -> tuple:
-    """
-    Get the most recent swing high and low points and the price of the swing points.
-    
-    Args:
-        df: DataFrame with swing points marked
-        lookback: Number of periods to look back
-        
-    Returns:
-        tuple: (last_swing_high, last_swing_low)
-    """
+    """Get the most recent swing high and low points."""
     recent_data = df.tail(lookback)
     
     # Get rows with swing points
     swing_highs = recent_data[recent_data['swing_high']]
     swing_lows = recent_data[recent_data['swing_low']]
     
-    # Get last prices
-    last_high_price = swing_highs[('price', 'High')].iloc[-1] if len(swing_highs) > 0 else None
-    last_low_price = swing_lows[('price', 'Low')].iloc[-1] if len(swing_lows) > 0 else None
+    # Get last prices using correct column names
+    last_high_price = swing_highs[('price', 'high')].iloc[-1] if len(swing_highs) > 0 else None
+    last_low_price = swing_lows[('price', 'low')].iloc[-1] if len(swing_lows) > 0 else None
     
     return last_high_price, last_low_price

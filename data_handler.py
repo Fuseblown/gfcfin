@@ -2,6 +2,29 @@ from datetime import datetime
 from typing import Optional, Union
 import yfinance as yf
 import pandas as pd
+import os
+import gdown
+
+def _extract_gdrive_id(url: str) -> str:
+    """Extract file ID from Google Drive URL"""
+    return url.split('/d/')[-1].split('/')[0]
+
+def _download_from_gdrive(url: str, destination: str) -> None:
+    """Download file from Google Drive using gdown."""
+    try:
+        gdown.download(url, destination, quiet=False, fuzzy=True)
+    except Exception as e:
+        raise ValueError(f"Failed to download file from Google Drive: {e}")
+    
+def _get_local_filename(url: str, symbol: str) -> str:
+    """Get local filename based on URL mapping."""
+    # Map specific URLs to filenames
+    url_mapping = {
+        'https://drive.google.com/file/d/1WE4YTNmtWPSvEsYBDD_V2lUYEE_J_sMJ/view': 'NQZ3_DataBento_trades_Dec_2023.csv'
+    }
+    
+    return url_mapping.get(url, f"{symbol}_{_extract_gdrive_id(url)}.csv")
+
 
 def fetch_data(
         source: str,
@@ -62,6 +85,36 @@ def fetch_data(
             data.reset_index(inplace=True)
             data = data.rename(columns={'ts_recv': 'Date', 'open': 'Open', 'high': 'High', 'low': 'Low', 'close': 'Close', 'size': 'Volume'})
             data.set_index('Date', inplace=True)
+
+    elif source == 'url':
+        if 'drive.google.com' in data_file:
+            # Create data directory if needed
+            if not os.path.exists(data_dir):
+                os.makedirs(data_dir)
+            
+            # Get local filename
+            local_filename = _get_local_filename(data_file, symbol)
+            local_file = os.path.join(data_dir, local_filename)
+            
+            # Download if not cached
+            if not os.path.exists(local_file):
+                _download_from_gdrive(data_file, local_file)
+            
+            # Process like CSV source
+            data = pd.read_csv(local_file)
+            data['ts_recv'] = pd.to_datetime(data['ts_recv'], format='ISO8601', dayfirst=False)
+            data['ts_recv'] = data['ts_recv'].dt.tz_convert('US/Eastern')
+            data.set_index('ts_recv', inplace=True)
+
+            if interval is not None:
+                if with_volume:
+                    data = data.resample(interval).agg({'price': 'ohlc', 'size': 'sum'})
+                else:
+                    data = data.resample(interval).agg({'price': 'ohlc'})
+                
+                data.columns = pd.MultiIndex.from_tuples(data.columns)
+            
+            return data
 
     else:
         raise ValueError(f"Data source '{source}' is not currently supported.")
