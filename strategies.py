@@ -1,6 +1,7 @@
 from abc import ABC, abstractmethod
 import pandas as pd
 import patterns as pt
+import data_handler as dh
 
 class Strategy(ABC):
     """Base class for all trading strategies"""
@@ -31,7 +32,6 @@ class LiquidityReversalSniper(Strategy):
     def fetch_data(self, symbol='NQZ3', data_dir='data', 
                   data_file='https://drive.google.com/file/d/1WE4YTNmtWPSvEsYBDD_V2lUYEE_J_sMJ/view'):
         """Fetch and prepare data for analysis"""
-        import data_handler as dh
         
         self.setup_df = dh.fetch_data('url', symbol,
                                     data_dir=data_dir,
@@ -62,6 +62,12 @@ class LiquidityReversalSniper(Strategy):
         
         # Get latest swing points
         self.last_high, self.last_low = pt.get_last_swing_points(swing_df)
+
+        # Detect fair value gaps
+        trade_df = pt.detect_fair_value_gaps(trade_df)
+
+        # Get the latest fair value gaps on the trade timeframe
+        self.last_bullish_fvg, self.last_bearish_fvg = pt.get_last_fair_value_gaps(trade_df)
         
         return swing_df, trade_df
     
