@@ -24,11 +24,11 @@ def detect_swing_points(df: pd.DataFrame, window: int = 3) -> pd.DataFrame:
         try:
             # Check if middle point is higher than surrounding points
             if df[high_col].iloc[i] > df[high_col].iloc[i-1] and df[high_col].iloc[i] > df[high_col].iloc[i+1]:
-                result_df.iloc[i, result_df.columns.get_loc('swing_high')] = True
+                result_df.iloc[i+1, result_df.columns.get_loc('swing_high')] = True
                 
             # Check if middle point is lower than surrounding points    
             if df[low_col].iloc[i] < df[low_col].iloc[i-1] and df[low_col].iloc[i] < df[low_col].iloc[i+1]:
-                result_df.iloc[i, result_df.columns.get_loc('swing_low')] = True
+                result_df.iloc[i+1, result_df.columns.get_loc('swing_low')] = True
 
         except KeyError as e:
             print(f"Error accessing columns: {e}")
