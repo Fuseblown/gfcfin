@@ -64,11 +64,11 @@ def get_last_swing_points(df: pd.DataFrame) -> tuple[float, float]:
     return last_swing_high, last_swing_low
 
 def detect_fair_value_gaps(df: pd.DataFrame, window: int = 3) -> pd.DataFrame:
-    """Detect swing highs and lows in price data using a rolling window."""
+    """Detect all fair value gaps in price data using a rolling window."""
     # Create copy of input DataFrame
     result_df = df.copy()
     
-    # Initialize swing columns
+    # Initialize fair value gap columns
     result_df['bullish_fvg'] = False
     result_df['bearish_fvg'] = False
     
