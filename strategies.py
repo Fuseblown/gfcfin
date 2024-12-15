@@ -26,7 +26,7 @@ class LiquidityReversalSniper(Strategy):
         self.last_high = None
         self.last_low = None
         
-    def analyze(self, df: pd.DataFrame) -> pd.DataFrame:
+    def analyze(self, setup_df: pd.DataFrame, trade_df: pd.DataFrame) -> pd.DataFrame:
         """
         Analyze price data to find swing points and potential reversal zones.
         
@@ -37,12 +37,12 @@ class LiquidityReversalSniper(Strategy):
             DataFrame with analysis results
         """
         # Detect swing points
-        df = pt.detect_swing_points(df)
+        swing_df = pt.detect_swing_points(setup_df)
         
         # Get latest swing points
-        self.last_high, self.last_low = pt.get_last_swing_points(df)
+        self.last_high, self.last_low = pt.get_last_swing_points(swing_df)
         
-        return df
+        return swing_df, trade_df
     
     def get_signals(self) -> dict:
         """

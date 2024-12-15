@@ -11,37 +11,53 @@ def detect_swing_points(df: pd.DataFrame, window: int = 3) -> pd.DataFrame:
     
     # Get correct column names based on DataFrame structure
     if isinstance(df.columns, pd.MultiIndex):
-        high_col = ('price', 'high')  # lowercase as per resample output
-        low_col = ('price', 'low')    # lowercase as per resample output
+        # For MultiIndex columns from resampled data
+        high_col = ('price', 'High')
+        low_col = ('price', 'Low')
     else:
+        # For standard columns
         high_col = 'High'
         low_col = 'Low'
-    
-    # # Print column structure for debugging
-    # print("DataFrame columns:", df.columns)
-    
+   
     # Detect swing points
     for i in range(1, len(df) - 1):
-        # Check if middle point is higher than surrounding points
-        if df[high_col].iloc[i] > df[high_col].iloc[i-1] and df[high_col].iloc[i] > df[high_col].iloc[i+1]:
-            result_df.iloc[i, result_df.columns.get_loc('swing_high')] = True
-            
-        # Check if middle point is lower than surrounding points
-        if df[low_col].iloc[i] < df[low_col].iloc[i-1] and df[low_col].iloc[i] < df[low_col].iloc[i+1]:
-            result_df.iloc[i, result_df.columns.get_loc('swing_low')] = True
+        try:
+            # Check if middle point is higher than surrounding points
+            if df[high_col].iloc[i] > df[high_col].iloc[i-1] and df[high_col].iloc[i] > df[high_col].iloc[i+1]:
+                result_df.iloc[i, result_df.columns.get_loc('swing_high')] = True
+                
+            # Check if middle point is lower than surrounding points    
+            if df[low_col].iloc[i] < df[low_col].iloc[i-1] and df[low_col].iloc[i] < df[low_col].iloc[i+1]:
+                result_df.iloc[i, result_df.columns.get_loc('swing_low')] = True
+        except KeyError as e:
+            print(f"Error accessing columns: {e}")
+            print(f"Available columns: {df.columns}")
+            raise
             
     return result_df
 
-def get_last_swing_points(df: pd.DataFrame, lookback: int = 10) -> tuple:
-    """Get the most recent swing high and low points."""
-    recent_data = df.tail(lookback)
+def get_last_swing_points(df: pd.DataFrame) -> tuple[float, float]:
+    """
+    Get the most recent swing high and low points.
     
-    # Get rows with swing points
-    swing_highs = recent_data[recent_data['swing_high']]
-    swing_lows = recent_data[recent_data['swing_low']]
+    Args:
+        df: DataFrame with swing_high and swing_low columns
+        
+    Returns:
+        tuple: (last_swing_high_price, last_swing_low_price)
+    """
+    # Get price column based on DataFrame structure
+    if isinstance(df.columns, pd.MultiIndex):
+        price_high = ('price', 'High')
+    else:
+        price_high = 'High'
+        
+    # Find last swing high
+    last_swing_high_mask = df['swing_high']
+    last_swing_high = df[last_swing_high_mask][price_high].iloc[-1] if any(last_swing_high_mask) else None
     
-    # Get last prices using correct column names
-    last_high_price = swing_highs[('price', 'high')].iloc[-1] if len(swing_highs) > 0 else None
-    last_low_price = swing_lows[('price', 'low')].iloc[-1] if len(swing_lows) > 0 else None
-    
-    return last_high_price, last_low_price
+    # Find last swing low 
+    last_swing_low_mask = df['swing_low']
+    last_swing_low = df[last_swing_low_mask][price_high].iloc[-1] if any(last_swing_low_mask) else None
+
+    return last_swing_high, last_swing_low

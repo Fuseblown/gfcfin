@@ -112,6 +112,10 @@ def fetch_data(
                 else:
                     data = data.resample(interval).agg({'price': 'ohlc'})
                 
+                data.reset_index(inplace=True)
+                data = data.rename(columns={'ts_recv': 'Date', 'open': 'Open', 'high': 'High', 'low': 'Low', 'close': 'Close', 'size': 'Volume'})
+                data.set_index('Date', inplace=True)
+
                 data.columns = pd.MultiIndex.from_tuples(data.columns)
             
             return data
