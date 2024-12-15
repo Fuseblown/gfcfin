@@ -102,13 +102,15 @@ def detect_fair_value_gaps(df: pd.DataFrame, window: int = 3) -> pd.DataFrame:
 
 def get_last_fair_value_gaps(df: pd.DataFrame) -> tuple[float, float]:
     """
-    Get the most recent swing high and low points.
+    Get the most recent bullish and bearish fair value gaps.
     
     Args:
-        df: DataFrame with swing_high and swing_low columns
+        df: DataFrame with bullish_fvg and bearish_fvg columns
         
     Returns:
-        tuple: (last_swing_high_price, last_swing_low_price)
+        tuple: (last_bullish_fvg, last_bearish_fvg)
+
+    NOTES: The True and False values in the columns are shifted by 1 candle to the right (they are listed in the same row as the third data point in the pattern) to avoid lookahead bias.
     """
     # Get price column based on DataFrame structure
     if isinstance(df.columns, pd.MultiIndex):
