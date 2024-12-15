@@ -1,29 +1,14 @@
-import data_handler as dh
 import utils
 from strategies import LiquidityReversalSniper
 
-# Initialize strategy
-strategy = LiquidityReversalSniper()
+# Initialize strategy with timeframe parameters
+strategy = LiquidityReversalSniper(setup_timeframe='15min', trade_timeframe='1min')
 
-# Setup parameters
-setup_timeframe = '15min'  # For minute-based intervals use 'min' instead of 'm'.
-trade_timeframe = '1min'  # For minute-based intervals use 'min' instead of 'm'.
-
-# Load and analyze data
-setup_df = dh.fetch_data('url', 'NQZ3', 
-                        data_dir='data', 
-                        data_file='https://drive.google.com/file/d/1WE4YTNmtWPSvEsYBDD_V2lUYEE_J_sMJ/view', 
-                        interval=setup_timeframe, 
-                        with_volume=True)
-
-trade_df = dh.fetch_data('url', 'NQZ3', 
-                        data_dir='data', 
-                        data_file='https://drive.google.com/file/d/1WE4YTNmtWPSvEsYBDD_V2lUYEE_J_sMJ/view', 
-                        interval=trade_timeframe, 
-                        with_volume=True)
+# Fetch data
+strategy.fetch_data()
 
 # Run strategy analysis
-analyzed_setup_df, analyzed_trade_df = strategy.analyze(setup_df, trade_df)
+analyzed_setup_df, analyzed_trade_df = strategy.analyze()
 
 # Get signals
 signals = strategy.get_signals()

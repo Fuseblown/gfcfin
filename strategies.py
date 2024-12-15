@@ -19,23 +19,44 @@ class Strategy(ABC):
         pass
 
 class LiquidityReversalSniper(Strategy):
-    """Strategy that trades reversals at liquidity levels marked by swing points"""
-    
-    def __init__(self):
+    def __init__(self, setup_timeframe='15min', trade_timeframe='1min'):
         super().__init__("Liquidity Reversal Sniper")
+        self.setup_timeframe = setup_timeframe
+        self.trade_timeframe = trade_timeframe
         self.last_high = None
         self.last_low = None
+        self.setup_df = None
+        self.trade_df = None
         
-    def analyze(self, setup_df: pd.DataFrame, trade_df: pd.DataFrame) -> pd.DataFrame:
-        """
-        Analyze price data to find swing points and potential reversal zones.
+    def fetch_data(self, symbol='NQZ3', data_dir='data', 
+                  data_file='https://drive.google.com/file/d/1WE4YTNmtWPSvEsYBDD_V2lUYEE_J_sMJ/view'):
+        """Fetch and prepare data for analysis"""
+        import data_handler as dh
         
-        Args:
-            df: DataFrame with OHLC data
+        self.setup_df = dh.fetch_data('url', symbol,
+                                    data_dir=data_dir,
+                                    data_file=data_file,
+                                    interval=self.setup_timeframe,
+                                    with_volume=True)
         
-        Returns:
-            DataFrame with analysis results
-        """
+        self.trade_df = dh.fetch_data('url', symbol,
+                                    data_dir=data_dir, 
+                                    data_file=data_file,
+                                    interval=self.trade_timeframe,
+                                    with_volume=True)
+        
+    def analyze(self, setup_df=None, trade_df=None):
+        """Analyze price data to find swing points and potential reversal zones."""
+        # Use provided dataframes or fetch if needed
+        if setup_df is None:
+            setup_df = self.setup_df
+        if trade_df is None:
+            trade_df = self.trade_df
+            
+        # Verify we have data
+        if setup_df is None or trade_df is None:
+            raise ValueError("No data available. Call fetch_data() first or provide DataFrames.")
+            
         # Detect swing points
         swing_df = pt.detect_swing_points(setup_df)
         
