@@ -10,6 +10,75 @@ Automate backtesting and trading of various market trading strategies for financ
 
 - Obtain preliminary backtesting results for various mechanical trading strategies
 
+## Usage Instructions
+
+Clone the repository and change to the new directory:
+
+```
+git clone https://github.com/Fuseblown/gfcfin.git
+
+cd gfcfin
+```
+
+Setup your favorite development environment. I personally use Conda and Python 3.9:
+
+```
+conda create -n gfcfin python=3.9
+```
+
+Activate the environment:
+
+```
+conda activate gfcfin
+```
+
+Install the requirements:
+
+```
+pip install -r requirements.txt
+```
+
+Run `main.py`. The first time executing this file will download sample data (~392MB) from Google Drive and save it to the `'./data'` directory.
+
+```
+python main.py
+```
+
+By default, the `LiquidityReversalSniper()` strategy class is run and currently outputs the following in the terminal:
+
+```
+                              price                               swing_high swing_low
+                               open      high       low     close
+ts_recv
+2023-11-30 19:00:00-05:00  15964.25  15964.25  15958.25  15963.25      False     False
+2023-11-30 19:15:00-05:00  15962.75  15963.75  15959.50  15961.50      False     False
+2023-11-30 19:30:00-05:00  15961.25  15961.25  15956.75  15959.50      False     False
+2023-11-30 19:45:00-05:00  15959.75  15959.75  15955.00  15958.75      False     False
+2023-11-30 20:00:00-05:00  15958.75  15962.25  15953.50  15954.25       True     False
+2023-11-30 20:15:00-05:00  15954.50  15958.50  15951.25  15955.75      False      True
+2023-11-30 20:30:00-05:00  15955.50  15961.00  15954.00  15958.00      False     False
+2023-11-30 20:45:00-05:00  15958.25  15962.75  15952.50  15953.50       True     False
+2023-11-30 21:00:00-05:00  15953.50  15958.25  15952.00  15955.00      False      True
+2023-11-30 21:15:00-05:00  15955.25  15959.75  15954.25  15959.50      False     False
+...                             ...       ...       ...       ...        ...       ...
+2023-12-15 07:00:00-05:00  16596.25  16599.75  16593.50  16594.25      False      True
+2023-12-15 07:15:00-05:00  16595.00  16602.25  16595.00  16599.75      False     False
+2023-12-15 07:30:00-05:00  16599.50  16602.75  16595.00  16595.00       True     False
+2023-12-15 07:45:00-05:00  16595.25  16596.75  16584.00  16586.25      False     False
+2023-12-15 08:00:00-05:00  16588.50  16592.50  16584.00  16590.00      False     False
+2023-12-15 08:15:00-05:00  16592.00  16595.25  16584.00  16595.25      False     False
+2023-12-15 08:30:00-05:00  16596.75  16603.50  16549.25  16567.75       True      True
+2023-12-15 08:45:00-05:00  16565.25  16580.00  16560.50  16580.00      False     False
+2023-12-15 09:00:00-05:00  16584.00  16601.00  16576.75  16598.75      False     False
+2023-12-15 09:15:00-05:00  16598.75  16612.50  16521.50  16558.00      False     False
+
+[1402 rows x 6 columns]
+
+Strategy Signals:
+Last swing high: 16603.5
+Last swing low: 16549.25
+```
+
 ## <span style="color:white">NASDAQ Index Futures Test Data</span>
 
 The primary instruments that will be traded are the NASDAQ Index Futures e-Mini and Micro e-Mini contracts (Base symbol: NQ and MNQ, respectively) Most of my strategies are based on this instrument alone, although will work in most cases across all markets and timeframes because price is fractal and delivered by an algorithm.
