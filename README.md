@@ -106,6 +106,8 @@ ts_recv,ts_event,rtype,publisher_id,instrument_id,action,side,depth,price,size,f
 
 All of the examples orders above except for the last transpired within the first second after midnight UTC on 2023-12-01. This is the most granular data provided and is used to simulate the most accurate trade executions. However, in most cases, it will be aggregated into "Open, High, Low, Close" data points for filtering and identifying trade setups.
 
+**NEW as of 12/14/2024!** When running main.py successfully for the first time, following the Usage Instructions, the sample data from the Google Drive link below will be automatically downloaded and saved in the `'./data'` directory.
+
 You can find an unabridged copy of the DataBento CSV source data from shown above to use for development and testing at: <https://drive.google.com/file/d/1WE4YTNmtWPSvEsYBDD_V2lUYEE_J_sMJ/view?usp=sharing>
 
 #### Aggregated Data
