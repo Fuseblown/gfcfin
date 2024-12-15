@@ -2,45 +2,16 @@
 
 Didn't know what else to call it. Open to suggestions.
 
-## <span style="color:yellow">CFTC RISK DISCLAIMER</span>
-
-**Trading involves risk**
-
-All financial trading involves significant risk.
-
-**You are solely responsible for all trading profit or loss**
-
-Only you are responsible for the trades you take, including trades taken through automated trading systems you may in any manner employ.
-
-You alone are ultimately and completely responsible for all testing and quality assurance of all trading systems, methods and technologies you may employ, and you alone bear the full profit or loss of any and all trading activities you may undertake.
-
-**Risk of trading futures, options, equities, and forex**
-
-There is a significant risk of loss in futures, forex, equities, and options trading - including trades taken online. Trade only with capital you can afford to lose. Past performance in not necessarily indicative of future results. Nothing within this repository or codebase or that we may separately convey is intended to be a recommendation to buy or sell any market or instrument. All information has been obtained from sources and methods which are believed to be reliable, but accuracy and thoroughness cannot be guaranteed. You alone are solely responsible for how to use the information and for the results. We do not guarantee the accuracy or completeness of any information or any analysis based thereon.
-
-**Hypothetical performance**
-
-Hypothetical performance results have many inherent limitations, some of which are described below. No representation is being made that any account will or is likely to achieve profits or losses similar to those shown. In fact, there are frequently sharp differences between hypothetical performance results and the actual results subsequently achieved by any particular trading program.
-
-One of the limitations of hypothetical performance results is that they are generally prepared with the benefit of hindsight. In addition, hypothetical trading does not involve financial risk, and no hypothetical trading record can completely account for the impact of financial risk in actual trading. For example, the ability to withstand losses or to adhere to a particular trading program in spite of trading losses are material points which can also adversely affect actual trading results. There are numerous other factors related to the markets in general or to the implementation of any specific trading program which cannot be fully accounted for in the preparation of hypothetical performance results and all of which can adversely affect actual trading results.
-
-We do not trade actual accounts for clients. Because there are no actual trading results to compare to any hypothetical performance results to in advance of live trading, clients should be particularly wary of placing undue reliance on hypothetical performance results.
-
-Commission Rule 4.41(c)(1) applies to "any publication, distribution or broadcast of any report, letter, circular, memorandum, publication, writing, advertisement or other literature…." Commission Rule 4.41(b) prohibits any person from presenting the performance of any simulated or hypothetical futures account or futures interest of a CTA, unless the presentation is accompanied by a disclosure statement. The statement describes the limitations of simulated or hypothetical futures trading as a guide to the performance that a CTA is likely to achieve in actual trading.
-
-_Additional risk disclosure for systems traders_
-
-Commission Rule 4.41(b)(1)(I) hypothetical or simulated performance results have certain inherent limitations. Unlike an actual performance record, simulated results do not represent actual trading. Also, since the trades have not actually been executed, the results may have under-compensated or over-compensated for the impact, if any, of certain market factors, such as lack of liquidity. Simulated trading programs in general are also subject to the fact that they are designed with the benefit of hindsight. No representation is being made that any account will or is likely to achieve profits or losses. There have been no promises, guarantees or warranties suggesting that any trading will result in a profit or will not result in a loss.
-
 ## <span style="color:white">Project Description</span>
 
 Automate backtesting and trading of various market trading strategies for financial gain. In time, we would essentially be creating a private hedge fund between the project's contributors and whomever we determine and agree upon beyond that. Open to discussion and suggestions for longer-term and end goals.
 
-### <span style="color:white">Primary Goals</span>
+## <span style="color:white">Primary Goals</span>
 
 - Obtain preliminary backtesting results for various mechanical trading strategies
+-
 
-### <span style="color:white">NASDAQ Index Futures Test Data</span>
+## <span style="color:white">NASDAQ Index Futures Test Data</span>
 
 The primary instruments that will be traded are the NASDAQ Index Futures e-Mini and Micro e-Mini contracts (Base symbol: NQ and MNQ, respectively) Most of my strategies are based on this instrument alone, although will work in most cases across all markets and timeframes because price is fractal and delivered by an algorithm.
 
@@ -51,6 +22,7 @@ There are many reasons for trading index futures, commodity futures, options, et
 Trade (or tick) data in CSV format from DataBento.io is structured like the following:
 
 ```
+
 ts_recv,ts_event,rtype,publisher_id,instrument_id,action,side,depth,price,size,flags,ts_in_delta,sequence,symbol
 2023-12-01 00:00:00.003574803+00:00,2023-12-01 00:00:00.003140441+00:00,0,1,260937,T,A,0,15964.25,1,0,15774,177919674,NQZ3
 2023-12-01 00:00:00.517622404+00:00,2023-12-01 00:00:00.517401231+00:00,0,1,260937,T,B,0,15964.25,1,0,16315,177920136,NQZ3
@@ -89,7 +61,7 @@ datetime,open,high,low,close
 
 This OHLC data is the underlying information that forms the bodies and wicks of candles on a candlestick chart. Utilizing reoccuring, mechanical and algorithmic patterns within these candles are how we print money.
 
-### <span style="color:white">Random Thoughts</span>
+## <span style="color:white">Random Thoughts</span>
 
 - Utilizing the Jesse trading bot project (https://jesse.trade and https://github.com/jesse-ai/jesse) would allow for testing and trading cryptocurrencies
   - Jesse could be forked and customized to import the data we need for futures, forex, stocks, options, etc.
@@ -97,3 +69,35 @@ This OHLC data is the underlying information that forms the bodies and wicks of 
     - Could still make our own thing from scratch using Python or C++ or whatever makes the most sense
   - Could be a shortcut to a creating a more robust platform without "reinventing the wheel"
   - Need to successfully code one of our strategies on the Jesse platform before deciding how to move ahead with it
+
+---
+
+# <span style="color:yellow">CFTC RISK DISCLAIMER</span>
+
+**Trading involves risk**
+
+All financial trading involves significant risk.
+
+**You are solely responsible for all trading profit or loss**
+
+Only you are responsible for the trades you take, including trades taken through automated trading systems you may in any manner employ.
+
+You alone are ultimately and completely responsible for all testing and quality assurance of all trading systems, methods and technologies you may employ, and you alone bear the full profit or loss of any and all trading activities you may undertake.
+
+**Risk of trading futures, options, equities, and forex**
+
+There is a significant risk of loss in futures, forex, equities, and options trading - including trades taken online. Trade only with capital you can afford to lose. Past performance in not necessarily indicative of future results. Nothing within this repository or codebase or that we may separately convey is intended to be a recommendation to buy or sell any market or instrument. All information has been obtained from sources and methods which are believed to be reliable, but accuracy and thoroughness cannot be guaranteed. You alone are solely responsible for how to use the information and for the results. We do not guarantee the accuracy or completeness of any information or any analysis based thereon.
+
+**Hypothetical performance**
+
+Hypothetical performance results have many inherent limitations, some of which are described below. No representation is being made that any account will or is likely to achieve profits or losses similar to those shown. In fact, there are frequently sharp differences between hypothetical performance results and the actual results subsequently achieved by any particular trading program.
+
+One of the limitations of hypothetical performance results is that they are generally prepared with the benefit of hindsight. In addition, hypothetical trading does not involve financial risk, and no hypothetical trading record can completely account for the impact of financial risk in actual trading. For example, the ability to withstand losses or to adhere to a particular trading program in spite of trading losses are material points which can also adversely affect actual trading results. There are numerous other factors related to the markets in general or to the implementation of any specific trading program which cannot be fully accounted for in the preparation of hypothetical performance results and all of which can adversely affect actual trading results.
+
+We do not trade actual accounts for clients. Because there are no actual trading results to compare to any hypothetical performance results to in advance of live trading, clients should be particularly wary of placing undue reliance on hypothetical performance results.
+
+Commission Rule 4.41(c)(1) applies to "any publication, distribution or broadcast of any report, letter, circular, memorandum, publication, writing, advertisement or other literature…." Commission Rule 4.41(b) prohibits any person from presenting the performance of any simulated or hypothetical futures account or futures interest of a CTA, unless the presentation is accompanied by a disclosure statement. The statement describes the limitations of simulated or hypothetical futures trading as a guide to the performance that a CTA is likely to achieve in actual trading.
+
+**Additional risk disclosure for systems traders**
+
+Commission Rule 4.41(b)(1)(I) hypothetical or simulated performance results have certain inherent limitations. Unlike an actual performance record, simulated results do not represent actual trading. Also, since the trades have not actually been executed, the results may have under-compensated or over-compensated for the impact, if any, of certain market factors, such as lack of liquidity. Simulated trading programs in general are also subject to the fact that they are designed with the benefit of hindsight. No representation is being made that any account will or is likely to achieve profits or losses. There have been no promises, guarantees or warranties suggesting that any trading will result in a profit or will not result in a loss.
