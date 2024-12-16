@@ -59,7 +59,7 @@ def get_last_swing_points(df: pd.DataFrame) -> tuple[float, float]:
     
     # Find last swing low
     last_swing_low_mask = df['swing_low']
-    last_swing_low = df[last_swing_low_mask][price_high].iloc[-1] if any(last_swing_low_mask) else None
+    last_swing_low = df[last_swing_low_mask][price_low].iloc[-1] if any(last_swing_low_mask) else None
 
     return last_swing_high, last_swing_low
 
