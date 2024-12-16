@@ -77,7 +77,7 @@ Date
 
 Strategy Signals:
 Last swing high: 16580.0
-Last swing low: 16580.0
+Last swing low: 16560.5
 
 Trade Timeframe Data:
                               price                               Volume bullish_fvg bearish_fvg
