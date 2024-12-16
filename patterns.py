@@ -50,8 +50,10 @@ def get_last_swing_points(df: pd.DataFrame) -> tuple[float, float]:
     # Get price column based on DataFrame structure
     if isinstance(df.columns, pd.MultiIndex):
         price_high = ('price', 'High')
+        price_low = ('price', 'Low')
     else:
         price_high = 'High'
+        price_low = 'Low'
         
     # Find last swing high
     last_swing_high_mask = df['swing_high']
