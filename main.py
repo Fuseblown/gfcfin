@@ -15,7 +15,7 @@ signals = strategy.get_signals()
 
 # Display results
 print("\nSetup Timeframe Analysis:")
-utils.debug_df(analyzed_setup_df[['price', 'swing_high', 'swing_low']], min_rows=20)
+utils.debug_df(analyzed_setup_df[['price', 'swing_high', 'swing_low', 'swing_high_broken', 'swing_low_broken', 'swing_invalidated']], min_rows=60)
 print(f"\nStrategy Signals:")
 print(f"Last swing high: {signals['last_swing_high']}")
 print(f"Last swing low: {signals['last_swing_low']}")

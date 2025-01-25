@@ -171,6 +171,66 @@ This OHLC data is the underlying information that forms the bodies and wicks of 
 
 ---
 
+## GFC Financial System Architecture
+
+```mermaid
+flowchart TB
+    subgraph main[main.py]
+        direction TB
+        M1[Initialize Strategy] --> M2[Fetch Data]
+        M2 --> M3[Run Analysis]
+        M3 --> M4[Get Signals]
+        M4 --> M5[Display Results]
+    end
+
+    subgraph dh[data_handler.py]
+        direction TB
+        D1[fetch_data] --> D2[Download from GDrive]
+        D2 --> D3[Process CSV Data]
+        D3 --> D4[Resample Timeframes]
+    end
+
+    subgraph strat[strategies.py]
+        direction TB
+        subgraph ls[LiquidityReversalSniper]
+            L1[Initialize] --> L2[Set Timeframes]
+            L2 --> L3[Analyze Data]
+            L3 --> L4[Get Signals]
+        end
+    end
+
+    subgraph pat[patterns.py]
+        direction TB
+        P1[detect_swing_points]
+        P2[get_last_swing_points]
+        P3[detect_fair_value_gaps]
+        P4[get_last_fair_value_gaps]
+    end
+
+    subgraph util[utils.py]
+        U1[debug_df]
+    end
+
+    M1 --> L1
+    M2 --> D1
+    D4 --> L3
+    L3 --> P1
+    L3 --> P2
+    L3 --> P3
+    L3 --> P4
+    M5 --> U1
+
+    classDef primary fill:#f9f,stroke:#333,stroke-width:2px;
+    classDef secondary fill:#bbf,stroke:#333,stroke-width:1px;
+    classDef utility fill:#ddd,stroke:#333,stroke-width:1px;
+
+    class main,strat primary;
+    class dh,pat secondary;
+    class util utility;
+```
+
+---
+
 ## CFTC RISK DISCLAIMER
 
 ### Trading involves risk

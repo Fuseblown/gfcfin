@@ -59,7 +59,48 @@ class LiquidityReversalSniper(Strategy):
             
         # Detect swing points
         swing_df = pt.detect_swing_points(setup_df)
+
+        # Add swing break columns
+        swing_df['swing_high_broken'] = False
+        swing_df['swing_low_broken'] = False
         
+        # Track swing point breaks using source data
+        if isinstance(trade_df.columns, pd.MultiIndex):
+            price_col = ('price', 'High')  # Use High for testing breaks
+            low_col = ('price', 'Low')     # Use Low for testing breaks
+        else:
+            price_col = 'High'
+            low_col = 'Low'
+            
+        # Get swing points that need monitoring
+        swing_highs = swing_df[swing_df['swing_high']].copy()
+        swing_lows = swing_df[swing_df['swing_low']].copy()
+        
+        # Check each price point against swing levels
+        for idx, row in trade_df.iterrows():
+            # Check swing high breaks
+            if not swing_highs.empty:
+                # Align indexes and use loc for boolean indexing
+                unbroken_mask = ~swing_df.loc[swing_highs.index, 'swing_high_broken']
+                unbroken_highs = swing_highs.loc[unbroken_mask.index[unbroken_mask]]
+                
+                if not unbroken_highs.empty:
+                    broken_highs = unbroken_highs[unbroken_highs[price_col] < row[price_col]]
+                    if not broken_highs.empty:
+                        swing_df.loc[broken_highs.index, 'swing_high_broken'] = True
+                    
+            # Check swing low breaks    
+            if not swing_lows.empty:
+                # Align indexes and use loc for boolean indexing
+                unbroken_mask = ~swing_df.loc[swing_lows.index, 'swing_low_broken']
+                unbroken_lows = swing_lows.loc[unbroken_mask.index[unbroken_mask]]
+                
+                if not unbroken_lows.empty:
+                    broken_lows = unbroken_lows[unbroken_lows[low_col] > row[low_col]]
+                    if not broken_lows.empty:
+                        swing_df.loc[broken_lows.index, 'swing_low_broken'] = True
+
+
         # Get latest swing points
         self.last_high, self.last_low = pt.get_last_swing_points(swing_df)
 
