@@ -171,7 +171,7 @@ This OHLC data is the underlying information that forms the bodies and wicks of 
 
 ---
 
-## GFC Financial System Architecture
+## Backtest System Architecture
 
 ```mermaid
 flowchart TB
