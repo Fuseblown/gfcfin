@@ -1,5 +1,7 @@
 # Liquidity Reversal Sniper Trading Strategy Flow
 
+## Ignore this for now, it is a work in progress
+
 ```mermaid
 flowchart TB
     A[Start] --> B[Initialize LiquidityReversalSniper]
