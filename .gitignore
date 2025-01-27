@@ -1,3 +1,7 @@
 /data/*
+!/data/aggregated/
+/data/aggregated/*
+!/data/temp/
+/data/temp/*
 hide/
 __pycache__/
